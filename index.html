@@ -1,0 +1,50 @@
+<html>
+	<head></head>
+	<body>
+    <div id="token"></div>
+    <!-- Firebase cloud messaging notifications -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCnBvUKFBCz2BOM5qdwYUiU1edptUINF2U",
+        authDomain: "tobblekids.firebaseapp.com",
+        databaseURL: "https://tobblekids.firebaseio.com",
+        projectId: "tobblekids",
+        storageBucket: "tobblekids.appspot.com",
+        messagingSenderId: "1011177539293",
+        appId: "1:1011177539293:web:53ad34b1a1e66f23fe7d34",
+        measurementId: "G-DNWP3RRCL1"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const messaging = firebase.messaging();
+
+      function IntitalizeFireBaseMessaging(){
+        messaging.requestPermission().then(function(){
+          console.log("Notification Permission");
+          return messaging.getToken();
+        }).then(function(token){
+          console.log("Token :"+token)
+          $("token").html(token);
+        }).catch(function(reason){
+          console.log(reason);
+        })
+      }
+      messaging.onMessage(function(payload){
+        console.log(payload);
+      })
+      messaging.onTokenRefresh(function(){
+        messaging.getToken().then(function(newtoken){
+          console.log("New Token:"+newtoken);
+        }).catch(function(reason){
+          console.log(reason)
+        })
+      })
+      IntitalizeFireBaseMessaging();
+    </script>
+	</body>
+</html>
